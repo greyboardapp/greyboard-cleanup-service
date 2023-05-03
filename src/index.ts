@@ -11,41 +11,41 @@
  */
 
 export interface Env {
-	db: D1Database;
-	boards : R2Bucket;
+    db : D1Database;
+    boards : R2Bucket;
 }
 
 export interface Board {
-	id : string;
+    id : string;
     isPermanent : boolean;
     modifiedAt : number;
 }
 
 export default {
-	async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
-		try {
-			const boards = await env.db.exec<Board>("SELECT * FROM boards WHERE modifiedAt <= date('now', '-7 day') AND isPermanent = FALSE");
-			if (!boards || !boards.success || !boards.results) {
-				console.error("Error while reading database:", boards.error);
-				return;
-			}
+    async scheduled(controller : ScheduledController, env : Env, ctx : ExecutionContext) : Promise<void> {
+        try {
+            const boards = await env.db.exec<Board>("SELECT * FROM boards WHERE modifiedAt <= date('now', '-7 day') AND isPermanent = FALSE");
+            if (!boards || !boards.success || !boards.results) {
+                console.error("Error while reading database:", boards.error);
+                return;
+            }
 
-			const ids = boards.results.map((board) => board.id);
+            const ids = boards.results.map((board) => board.id);
 
-			console.log("Deleting boards:", ids);
+            console.log("Deleting boards:", ids);
 
-			const result = await env.db.exec(`DELETE FROM boards WHERE id IN (${boards.results.map((board) => `'${board.id}'`).join(",")})`);
-			if (!result || !result.success) {
-				console.error("Error while deleting boards from database:", result.error);
-				return;
-			}
+            const result = await env.db.exec(`DELETE FROM boards WHERE id IN (${boards.results.map((board) => `'${board.id}'`).join(",")})`);
+            if (!result || !result.success) {
+                console.error("Error while deleting boards from database:", result.error);
+                return;
+            }
 
-			console.log("Deleting boards contents:", ids);
-			await env.boards.delete(ids);
+            console.log("Deleting boards contents:", ids);
+            await env.boards.delete(ids);
 
-			console.log("Successfully deleted boards");
-		} catch (e) {
-			console.error(e);
-		}
-	},
+            console.log("Successfully deleted boards");
+        } catch (e) {
+            console.error(e);
+        }
+    },
 };
