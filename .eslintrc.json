@@ -1,0 +1,19 @@
+{
+    "extends": [
+        "@gergoszaszvaradi/eslint-config"
+    ],
+    "env": {
+        "worker": true
+    },
+    "rules": {
+        "no-extend-native": "off",
+        "no-return-assign": "off",
+        "no-await-in-loop": "off"
+    },
+    "globals": {
+        "PagesFunction": "readonly",
+        "D1Database": "readonly",
+        "KVNamespace": "readonly",
+        "R2Bucket": "readonly"
+    }
+}

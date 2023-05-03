@@ -1,0 +1,14 @@
+name = "greyboard-cleanup-service"
+main = "src/index.ts"
+compatibility_date = "2023-05-03"
+
+r2_buckets = [
+  { binding = "boards", bucket_name = "greyboard-boards-dev", preview_bucket_name = "greyboard-boards-dev" }
+]
+
+d1_databases = [
+  { binding = "db", database_name = "greyboard-db-dev", database_id = "20cd24c5-f76a-4d9b-b35e-3c4b7102428e", preview_database_id = "20cd24c5-f76a-4d9b-b35e-3c4b7102428e" }
+]
+
+[triggers]
+crons = [ "0 0 * * *" ]

@@ -1,0 +1,15 @@
+name: CI
+
+on: [push, workflow_dispatch]
+    
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node and Install Dependencies
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: yarn lint
