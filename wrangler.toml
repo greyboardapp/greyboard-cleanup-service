@@ -1,4 +1,4 @@
-name = "greyboard-cleanup-service"
+name = "greyboard-cleanup-service-dev"
 main = "src/index.ts"
 compatibility_date = "2023-05-03"
 
@@ -12,9 +12,6 @@ d1_databases = [
 
 [triggers]
 crons = [ "0 0 * * *" ]
-
-[env.development]
-name = "greyboard-cleanup-service-dev"
 
 [env.production]
 name = "greyboard-cleanup-service-prod"
