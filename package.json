@@ -10,7 +10,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "wrangler dev",
+    "dev": "wrangler dev --local --persist",
     "deploy": "wrangler publish",
     "lint": "eslint 'src/**/*'"
   }

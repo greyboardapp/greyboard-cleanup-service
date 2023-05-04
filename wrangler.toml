@@ -12,3 +12,17 @@ d1_databases = [
 
 [triggers]
 crons = [ "0 0 * * *" ]
+
+[env.development]
+name = "greyboard-cleanup-service-dev"
+
+[env.production]
+name = "greyboard-cleanup-service-prod"
+
+r2_buckets = [
+  { binding = "boards", bucket_name = "greyboard-boards-prod", preview_bucket_name = "greyboard-boards-dev" }
+]
+
+d1_databases = [
+  { binding = "db", database_name = "greyboard-db-prod", database_id = "3f6e1467-dc9d-4d3a-8125-3d51f62117d1", preview_database_id = "20cd24c5-f76a-4d9b-b35e-3c4b7102428e" }
+]
