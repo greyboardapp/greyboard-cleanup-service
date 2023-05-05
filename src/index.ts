@@ -10,7 +10,7 @@ interface Board {
 }
 
 async function cleanUp(env : Env) : Promise<void> {
-    const boards = await env.db.prepare("SELECT * FROM boards WHERE modifiedAt <= date('now', '-7 day') AND isPermanent = FALSE").all<Board>();
+    const boards = await env.db.prepare("SELECT * FROM boards WHERE (modifiedAt <= date('now', '-7 day') AND isPermanent = FALSE) OR isDeleted = TRUE").all<Board>();
     console.log(boards);
     if (!boards || !boards.success || !boards.results) {
         console.error("Error while reading database:", boards.error);
