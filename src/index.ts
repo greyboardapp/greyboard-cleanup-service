@@ -26,11 +26,16 @@ async function cleanUp(env : Env) : Promise<void> {
 
     console.log("Deleting boards:", ids);
 
-    const result = await env.db.prepare(`DELETE FROM boards WHERE id IN (${boards.results.map((board) => `'${board.id}'`).join(",")})`).run();
-    console.log(result);
+    let result = await env.db.prepare(`DELETE FROM boards WHERE id IN (${boards.results.map((board) => `'${board.id}'`).join(",")})`).run();
     if (!result || !result.success || !result.results) {
         console.error("Error while deleting boards from database:", result.error);
         throw new Error(`Error while deleting boards from database: ${result.error}`);
+    }
+
+    result = await env.db.prepare(`DELETE FROM access WHERE board IN (${boards.results.map((board) => `'${board.id}'`).join(",")})`).run();
+    if (!result || !result.success || !result.results) {
+        console.error("Error while deleting board accesses from database:", result.error);
+        throw new Error(`Error while deleting board accesses from database: ${result.error}`);
     }
 
     console.log("Deleting boards contents:", ids);
