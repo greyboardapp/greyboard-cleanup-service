@@ -17,6 +17,11 @@ async function cleanUp(env : Env) : Promise<void> {
         throw new Error(`Error while reading database: ${boards.error}`);
     }
 
+    if (boards.results.length === 0) {
+        console.log("Nothing to delete");
+        return;
+    }
+
     const ids = boards.results.map((board) => board.id);
 
     console.log("Deleting boards:", ids);
